@@ -31,21 +31,21 @@ public class Cleanup {
     }
 
     public static List<Group> parse(InputStream inputStream) {
-        var scanner = new Scanner(inputStream).useDelimiter("\n");
+        try(var scanner = new Scanner(inputStream).useDelimiter("\n")) {
+            var groups = new ArrayList<Group>();
 
-        var groups = new ArrayList<Group>();
+            while (scanner.hasNext()) {
+                var line = scanner.next();
 
-        while(scanner.hasNext()) {
-            var line = scanner.next();
+                var ranges = line.split(",");
+                var firstSet = Arrays.stream(ranges[0].split("-")).map(Integer::parseInt).toList();
+                var secondSet = Arrays.stream(ranges[1].split("-")).map(Integer::parseInt).toList();
 
-            var ranges = line.split(",");
-            var firstSet = Arrays.stream(ranges[0].split("-")).map(Integer::parseInt).toList();
-            var secondSet = Arrays.stream(ranges[1].split("-")).map(Integer::parseInt).toList();
+                groups.add(new Cleanup.Group(new Cleanup.Assignment(firstSet.get(0), firstSet.get(1)),
+                        new Cleanup.Assignment(secondSet.get(0), secondSet.get(1))));
+            }
 
-            groups.add(new Cleanup.Group(new Cleanup.Assignment(firstSet.get(0), firstSet.get(1)),
-                    new Cleanup.Assignment(secondSet.get(0), secondSet.get(1))));
+            return groups;
         }
-
-        return groups;
     }
 }

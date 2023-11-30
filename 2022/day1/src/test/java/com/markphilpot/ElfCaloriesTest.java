@@ -27,6 +27,9 @@ public class ElfCaloriesTest {
         var leader = Elf.findLeader(inputStream);
 
         log.info(leader);
+
+        assertThat(leader.index(), is(7));
+        assertThat(leader.calories(), is(67633));
     }
 
     @Test
