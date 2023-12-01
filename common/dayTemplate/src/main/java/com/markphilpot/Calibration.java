@@ -9,7 +9,7 @@ public class Calibration {
 
   public static int getCalibrationValue(List<String> input) {
     var firstNumber = input.stream().filter(v -> v.matches("\\d")).findFirst().get();
-    var rList = StringUtils.reverse(input);
+    var rList = input.reversed();
     var secondNumber = rList.stream().filter(v -> v.matches("\\d")).findFirst().get();
 
     return Integer.parseInt("%s%s".formatted(firstNumber, secondNumber));
@@ -26,7 +26,7 @@ public class Calibration {
     var firstNumber = input.stream().filter(v -> v.matches("\\d")).findFirst();
     var firstNumberIndex = firstNumber.map(input::indexOf).orElse(-1);
 
-    var rList = StringUtils.reverse(input);
+    var rList = input.reversed();
     ;
 
     var lastNumber = rList.stream().filter(v -> v.matches("\\d")).findFirst();
