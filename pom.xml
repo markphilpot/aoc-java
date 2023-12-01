@@ -12,6 +12,7 @@
   <modules>
     <module>common</module>
     <module>2022</module>
+    <module>2023</module>
   </modules>
 
   <dependencyManagement>
