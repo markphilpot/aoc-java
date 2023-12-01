@@ -1,131 +1,134 @@
 package com.markphilpot;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.junit.Test;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.Is.is;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.Is.is;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.junit.Test;
 
 public class RPSTest {
-    private static final Logger log = LogManager.getLogger(RPSTest.class);
+  private static final Logger log = LogManager.getLogger(RPSTest.class);
 
-    @Test
-    public void testSamplePart1() {
-        var inputStream = RPSTest.class.getClassLoader().getResourceAsStream("sample.txt");
+  @Test
+  public void testSamplePart1() {
+    var inputStream = RPSTest.class.getClassLoader().getResourceAsStream("sample.txt");
 
-        var encoding = Map.of(
-                "A", Game.Move.ROCK,
-                "B", Game.Move.PAPER,
-                "C", Game.Move.SCISSORS,
-                "X", Game.Move.ROCK,
-                "Y", Game.Move.PAPER,
-                "Z", Game.Move.SCISSORS
-        );
+    var encoding =
+        Map.of(
+            "A", Game.Move.ROCK,
+            "B", Game.Move.PAPER,
+            "C", Game.Move.SCISSORS,
+            "X", Game.Move.ROCK,
+            "Y", Game.Move.PAPER,
+            "Z", Game.Move.SCISSORS);
 
-        var scanner = new Scanner(inputStream).useDelimiter("\n");
+    var scanner = new Scanner(inputStream).useDelimiter("\n");
 
-        List<Game> games = new ArrayList<>();
+    List<Game> games = new ArrayList<>();
 
-        while(scanner.hasNext()) {
-            var line = scanner.next();
-            var elements = line.split(" ");
-            games.add(new Game(encoding.get(elements[0]), encoding.get(elements[1])));
-        }
-
-        var totalScore = games.stream().map(Game::getScore).reduce(0, Integer::sum);
-
-        assertThat(totalScore, is(15));
+    while (scanner.hasNext()) {
+      var line = scanner.next();
+      var elements = line.split(" ");
+      games.add(new Game(encoding.get(elements[0]), encoding.get(elements[1])));
     }
 
-    @Test
-    public void testInputPart1() {
-        var inputStream = RPSTest.class.getClassLoader().getResourceAsStream("input.txt");
+    var totalScore = games.stream().map(Game::getScore).reduce(0, Integer::sum);
 
-        var encoding = Map.of(
-                "A", Game.Move.ROCK,
-                "B", Game.Move.PAPER,
-                "C", Game.Move.SCISSORS,
-                "X", Game.Move.ROCK,
-                "Y", Game.Move.PAPER,
-                "Z", Game.Move.SCISSORS
-        );
+    assertThat(totalScore, is(15));
+  }
 
-        var scanner = new Scanner(inputStream).useDelimiter("\n");
+  @Test
+  public void testInputPart1() {
+    var inputStream = RPSTest.class.getClassLoader().getResourceAsStream("input.txt");
 
-        List<Game> games = new ArrayList<>();
+    var encoding =
+        Map.of(
+            "A", Game.Move.ROCK,
+            "B", Game.Move.PAPER,
+            "C", Game.Move.SCISSORS,
+            "X", Game.Move.ROCK,
+            "Y", Game.Move.PAPER,
+            "Z", Game.Move.SCISSORS);
 
-        while(scanner.hasNext()) {
-            var line = scanner.next();
-            var elements = line.split(" ");
-            games.add(new Game(encoding.get(elements[0]), encoding.get(elements[1])));
-        }
+    var scanner = new Scanner(inputStream).useDelimiter("\n");
 
-        var totalScore = games.stream().map(Game::getScore).reduce(0, Integer::sum);
+    List<Game> games = new ArrayList<>();
 
-//        assertThat(totalScore, is(15));
-        log.info(totalScore);
+    while (scanner.hasNext()) {
+      var line = scanner.next();
+      var elements = line.split(" ");
+      games.add(new Game(encoding.get(elements[0]), encoding.get(elements[1])));
     }
 
-    @Test
-    public void testSamplePart2() {
-        var inputStream = RPSTest.class.getClassLoader().getResourceAsStream("sample.txt");
+    var totalScore = games.stream().map(Game::getScore).reduce(0, Integer::sum);
 
-        var encoding = Map.of(
-                "A", Game.Move.ROCK,
-                "B", Game.Move.PAPER,
-                "C", Game.Move.SCISSORS,
-                "X", Game.Outcome.LOSE,
-                "Y", Game.Outcome.DRAW,
-                "Z", Game.Outcome.WIN
-        );
+    //        assertThat(totalScore, is(15));
+    log.info(totalScore);
+  }
 
-        var scanner = new Scanner(inputStream).useDelimiter("\n");
+  @Test
+  public void testSamplePart2() {
+    var inputStream = RPSTest.class.getClassLoader().getResourceAsStream("sample.txt");
 
-        List<Game> games = new ArrayList<>();
+    var encoding =
+        Map.of(
+            "A", Game.Move.ROCK,
+            "B", Game.Move.PAPER,
+            "C", Game.Move.SCISSORS,
+            "X", Game.Outcome.LOSE,
+            "Y", Game.Outcome.DRAW,
+            "Z", Game.Outcome.WIN);
 
-        while(scanner.hasNext()) {
-            var line = scanner.next();
-            var elements = line.split(" ");
-            games.add(new Game((Game.Move) encoding.get(elements[0]), (Game.Outcome) encoding.get(elements[1])));
-        }
+    var scanner = new Scanner(inputStream).useDelimiter("\n");
 
-        var totalScore = games.stream().map(Game::getScore).reduce(0, Integer::sum);
+    List<Game> games = new ArrayList<>();
 
-        assertThat(totalScore, is(12));
+    while (scanner.hasNext()) {
+      var line = scanner.next();
+      var elements = line.split(" ");
+      games.add(
+          new Game(
+              (Game.Move) encoding.get(elements[0]), (Game.Outcome) encoding.get(elements[1])));
     }
 
-    @Test
-    public void testInputPart2() {
-        var inputStream = RPSTest.class.getClassLoader().getResourceAsStream("input.txt");
+    var totalScore = games.stream().map(Game::getScore).reduce(0, Integer::sum);
 
-        var encoding = Map.of(
-                "A", Game.Move.ROCK,
-                "B", Game.Move.PAPER,
-                "C", Game.Move.SCISSORS,
-                "X", Game.Outcome.LOSE,
-                "Y", Game.Outcome.DRAW,
-                "Z", Game.Outcome.WIN
-        );
+    assertThat(totalScore, is(12));
+  }
 
-        var scanner = new Scanner(inputStream).useDelimiter("\n");
+  @Test
+  public void testInputPart2() {
+    var inputStream = RPSTest.class.getClassLoader().getResourceAsStream("input.txt");
 
-        List<Game> games = new ArrayList<>();
+    var encoding =
+        Map.of(
+            "A", Game.Move.ROCK,
+            "B", Game.Move.PAPER,
+            "C", Game.Move.SCISSORS,
+            "X", Game.Outcome.LOSE,
+            "Y", Game.Outcome.DRAW,
+            "Z", Game.Outcome.WIN);
 
-        while(scanner.hasNext()) {
-            var line = scanner.next();
-            var elements = line.split(" ");
-            games.add(new Game((Game.Move) encoding.get(elements[0]), (Game.Outcome) encoding.get(elements[1])));
-        }
+    var scanner = new Scanner(inputStream).useDelimiter("\n");
 
-        var totalScore = games.stream().map(Game::getScore).reduce(0, Integer::sum);
+    List<Game> games = new ArrayList<>();
 
-//        assertThat(totalScore, is(12));
-        log.info(totalScore);
+    while (scanner.hasNext()) {
+      var line = scanner.next();
+      var elements = line.split(" ");
+      games.add(
+          new Game(
+              (Game.Move) encoding.get(elements[0]), (Game.Outcome) encoding.get(elements[1])));
     }
+
+    var totalScore = games.stream().map(Game::getScore).reduce(0, Integer::sum);
+
+    //        assertThat(totalScore, is(12));
+    log.info(totalScore);
+  }
 }

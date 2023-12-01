@@ -7,58 +7,61 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Elf {
-    public record ElfCalories(Integer index, Integer calories) {}
+  public record ElfCalories(Integer index, Integer calories) {}
 
-    public static ElfCalories findLeader(InputStream inputStream) {
-        var scanner = new Scanner(inputStream).useDelimiter("\n");
+  public static ElfCalories findLeader(InputStream inputStream) {
+    var scanner = new Scanner(inputStream).useDelimiter("\n");
 
-        ElfCalories current = new ElfCalories(1, 0);
-        ElfCalories currentLeader = null;
+    ElfCalories current = new ElfCalories(1, 0);
+    ElfCalories currentLeader = null;
 
-        while(scanner.hasNext()) {
-            var line = scanner.next();
+    while (scanner.hasNext()) {
+      var line = scanner.next();
 
-            if(line.isEmpty()) {
-                // Elf is complete
-                if(currentLeader == null || currentLeader.calories() < current.calories()) {
-                    currentLeader = current;
-                }
-                current = new ElfCalories(current.index() + 1, 0);
-            } else {
-                var calories = Integer.parseInt(line);
-                current = new ElfCalories(current.index(), current.calories() + calories);
-            }
+      if (line.isEmpty()) {
+        // Elf is complete
+        if (currentLeader == null || currentLeader.calories() < current.calories()) {
+          currentLeader = current;
         }
-        // Check last
-        if(currentLeader == null || currentLeader.calories() < current.calories()) {
-            currentLeader = current;
-        }
-
-        return currentLeader;
+        current = new ElfCalories(current.index() + 1, 0);
+      } else {
+        var calories = Integer.parseInt(line);
+        current = new ElfCalories(current.index(), current.calories() + calories);
+      }
+    }
+    // Check last
+    if (currentLeader == null || currentLeader.calories() < current.calories()) {
+      currentLeader = current;
     }
 
-    public static List<ElfCalories> findTopThree(InputStream inputStream) {
-        var scanner = new Scanner(inputStream).useDelimiter("\n");
+    return currentLeader;
+  }
 
-        List<ElfCalories> all = new ArrayList<>();
-        ElfCalories current = new ElfCalories(1, 0);
+  public static List<ElfCalories> findTopThree(InputStream inputStream) {
+    var scanner = new Scanner(inputStream).useDelimiter("\n");
 
-        while(scanner.hasNext()) {
-            var line = scanner.next();
+    List<ElfCalories> all = new ArrayList<>();
+    ElfCalories current = new ElfCalories(1, 0);
 
-            if(line.isEmpty()) {
-                // Elf is complete
-                all.add(current);
-                current = new ElfCalories(current.index() + 1, 0);
-            } else {
-                var calories = Integer.parseInt(line);
-                current = new ElfCalories(current.index(), current.calories() + calories);
-            }
-        }
+    while (scanner.hasNext()) {
+      var line = scanner.next();
 
-        // Get Last
+      if (line.isEmpty()) {
+        // Elf is complete
         all.add(current);
-
-        return all.stream().sorted(Comparator.comparing(ElfCalories::calories).reversed()).limit(3).toList();
+        current = new ElfCalories(current.index() + 1, 0);
+      } else {
+        var calories = Integer.parseInt(line);
+        current = new ElfCalories(current.index(), current.calories() + calories);
+      }
     }
+
+    // Get Last
+    all.add(current);
+
+    return all.stream()
+        .sorted(Comparator.comparing(ElfCalories::calories).reversed())
+        .limit(3)
+        .toList();
+  }
 }
