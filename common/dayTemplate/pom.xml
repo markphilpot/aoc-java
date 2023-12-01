@@ -14,10 +14,4 @@
     <artifactId>dayTemplate</artifactId>
     <version>1.0-SNAPSHOT</version>
 
-    <dependencies>
-        <dependency>
-            <groupId>com.markphilpot</groupId>
-            <artifactId>utils</artifactId>
-        </dependency>
-    </dependencies>
 </project>

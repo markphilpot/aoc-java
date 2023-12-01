@@ -90,7 +90,7 @@ public class Stacks {
       Collections.reverse(initialState); // Need java 21 to get List.reverse *sigh*
       initialState.forEach(
           line -> {
-            var elements = LineParsing.lineToList(line);
+            var elements = Parsing.lineToList(line);
 
             IntStream.range(0, num)
                 .forEach(

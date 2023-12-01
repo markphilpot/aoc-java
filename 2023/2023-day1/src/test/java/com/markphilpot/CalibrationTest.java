@@ -3,9 +3,7 @@ package com.markphilpot;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 
-import java.util.ArrayList;
 import java.util.Map;
-import java.util.Scanner;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.Test;
@@ -26,13 +24,13 @@ public class CalibrationTest {
 
     inputs.forEach(
         (line, result) -> {
-          var value = Calibration.getCalibrationValue(LineParsing.lineToList(line));
+          var value = Calibration.getCalibrationValue(Parsing.lineToList(line));
           assertThat(value, is(result));
         });
 
     var total =
         inputs.entrySet().stream()
-            .map(entry -> Calibration.getCalibrationValue(LineParsing.lineToList(entry.getKey())))
+            .map(entry -> Calibration.getCalibrationValue(Parsing.lineToList(entry.getKey())))
             .reduce(0, Integer::sum);
 
     assertThat(total, is(142));
@@ -42,17 +40,11 @@ public class CalibrationTest {
   public void testInputPart1() {
     var inputStream = CalibrationTest.class.getClassLoader().getResourceAsStream("input.txt");
 
-    var inputs = new ArrayList<String>();
-
-    var scanner = new Scanner(inputStream).useDelimiter("\n");
-
-    while (scanner.hasNext()) {
-      inputs.add(scanner.next());
-    }
+    var inputs = Parsing.streamToList(inputStream);
 
     var total =
         inputs.stream()
-            .map(entry -> Calibration.getCalibrationValue(LineParsing.lineToList(entry)))
+            .map(entry -> Calibration.getCalibrationValue(Parsing.lineToList(entry)))
             .reduce(0, Integer::sum);
 
     log.info(total);
@@ -94,13 +86,7 @@ public class CalibrationTest {
   public void testInputPart2() {
     var inputStream = CalibrationTest.class.getClassLoader().getResourceAsStream("input.txt");
 
-    var inputs = new ArrayList<String>();
-
-    var scanner = new Scanner(inputStream).useDelimiter("\n");
-
-    while (scanner.hasNext()) {
-      inputs.add(scanner.next());
-    }
+    var inputs = Parsing.streamToList(inputStream);
 
     var total =
         inputs.stream().map(Calibration::getCalibrationValueWithWords).reduce(0, Integer::sum);

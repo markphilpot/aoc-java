@@ -21,7 +21,7 @@ public class Calibration {
   public record WordMatch(String word, Integer index) {}
 
   public static int getCalibrationValueWithWords(String line) {
-    var input = LineParsing.lineToList(line);
+    var input = Parsing.lineToList(line);
 
     var firstNumber = input.stream().filter(v -> v.matches("\\d")).findFirst();
     var firstNumberIndex = firstNumber.map(input::indexOf).orElse(-1);
