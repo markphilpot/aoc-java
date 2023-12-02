@@ -6,12 +6,12 @@
 
     <parent>
         <groupId>com.markphilpot</groupId>
-        <artifactId>common</artifactId>
+        <artifactId>2023</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
 
     <groupId>com.markphilpot</groupId>
-    <artifactId>dayTemplate</artifactId>
+    <artifactId>2023-day2</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <dependencies>
