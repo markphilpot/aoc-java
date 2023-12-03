@@ -10,7 +10,7 @@ public class Schematic {
   private static final Logger log = LogManager.getLogger(Schematic.class);
 
   public static List<List<String>> parse(InputStream inputStream) {
-    return Parsing.streamToList(inputStream).stream().map(Parsing::lineToList).toList();
+    return ParsingUtils.streamToList(inputStream).stream().map(ParsingUtils::lineToList).toList();
   }
 
   public static boolean isSymbol(String x) {
@@ -89,11 +89,10 @@ public class Schematic {
     var numCols = schematic.size();
     var numRows = schematic.get(0).size();
 
-    var inventory = new ArrayList<LineInventory>();
-
-    for (var y = 0; y < schematic.size(); y++) {
-      inventory.add(inventoryLine(schematic.get(y), y));
-    }
+    var inventory =
+        StreamUtils.zipWithIndex(schematic.stream())
+            .map((x) -> inventoryLine(x.value(), (int) x.index()))
+            .toList();
 
     // Build lookup table
     var lookupTable = new HashMap<Pair, PartNumber>();
