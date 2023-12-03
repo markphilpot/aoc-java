@@ -17,7 +17,7 @@ public class GameBag {
   public record Game(int id, List<HashMap<Color, Integer>> rounds) {}
 
   public static List<Game> parse(InputStream inputStream) {
-    var lines = Parsing.streamToList(inputStream);
+    var lines = ParsingUtils.streamToList(inputStream);
 
     return lines.stream()
         .map(

@@ -8,7 +8,7 @@ public class Comms {
   private static final Logger log = LogManager.getLogger(Comms.class);
 
   public static Integer findMarker(String input, int size) {
-    var inputList = Parsing.lineToList(input);
+    var inputList = ParsingUtils.lineToList(input);
     var deque = new ArrayDeque<String>(size);
 
     for (var i = 0; i < inputList.size(); i++) {

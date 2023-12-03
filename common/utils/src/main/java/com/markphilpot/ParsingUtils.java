@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class Parsing {
+public class ParsingUtils {
   public static List<String> lineToList(String line) {
     return line.chars().mapToObj(x -> (char) x).map(Object::toString).toList();
   }

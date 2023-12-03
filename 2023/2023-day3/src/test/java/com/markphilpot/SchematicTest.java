@@ -69,5 +69,6 @@ public class SchematicTest {
     var total = Schematic.findGearRatios(schematic);
 
     log.info(total);
+    assertThat(total, is(75312571));
   }
 }

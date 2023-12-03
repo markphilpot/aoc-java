@@ -9,8 +9,8 @@ import org.apache.logging.log4j.Logger;
 public class Schematic {
   private static final Logger log = LogManager.getLogger(Schematic.class);
 
-  public static List<String> parse(InputStream inputStream) {
-    return Parsing.streamToList(inputStream);
+  public static List<List<String>> parse(InputStream inputStream) {
+    return Parsing.streamToList(inputStream).stream().map(Parsing::lineToList).toList();
   }
 
   public static boolean isSymbol(String x) {
@@ -54,15 +54,13 @@ public class Schematic {
         elements.stream().map(PartNumberElement::loc).toList());
   }
 
-  private static LineInventory inventoryLine(String line, int y) {
-    var asList = Parsing.lineToList(line);
-
+  private static LineInventory inventoryLine(List<String> line, int y) {
     var symbolCoordinates = new ArrayList<Symbol>();
     var partNumbers = new ArrayList<PartNumber>();
 
     var currentPartNumber = new ArrayList<PartNumberElement>();
-    for (var x = 0; x < asList.size(); x++) {
-      var m = asList.get(x);
+    for (var x = 0; x < line.size(); x++) {
+      var m = line.get(x);
       if (isSymbol(m)) {
         symbolCoordinates.add(new Symbol(m, new Pair(x, y)));
         if (!currentPartNumber.isEmpty()) {
@@ -87,10 +85,9 @@ public class Schematic {
     return new LineInventory(partNumbers, symbolCoordinates);
   }
 
-  public static int findPartNumberSum(List<String> schematic) {
-    var schematicList = schematic.stream().map(Parsing::lineToList).toList();
-    var numCols = schematicList.size();
-    var numRows = schematicList.get(0).size();
+  public static int findPartNumberSum(List<List<String>> schematic) {
+    var numCols = schematic.size();
+    var numRows = schematic.get(0).size();
 
     var inventory = new ArrayList<LineInventory>();
 
@@ -133,16 +130,19 @@ public class Schematic {
         .reduce(0, Integer::sum);
   }
 
-  public static int findGearRatios(List<String> schematic) {
-    var schematicList = schematic.stream().map(Parsing::lineToList).toList();
-    var numCols = schematicList.size();
-    var numRows = schematicList.get(0).size();
+  public static int findGearRatios(List<List<String>> schematic) {
+    var numCols = schematic.size();
+    var numRows = schematic.get(0).size();
 
-    var inventory = new ArrayList<LineInventory>();
+    //    var inventory = new ArrayList<LineInventory>();
+    //    schematic.forEach(StreamUtils.forEachWithIndex((i, line) -> {
+    //        inventory.add(inventoryLine(line, i));
+    //    }));
 
-    for (var y = 0; y < schematic.size(); y++) {
-      inventory.add(inventoryLine(schematic.get(y), y));
-    }
+    var inventory =
+        StreamUtils.zipWithIndex(schematic.stream())
+            .map((x) -> inventoryLine(x.value(), (int) x.index()))
+            .toList();
 
     // Build lookup table
     var lookupTable = new HashMap<Pair, PartNumber>();
@@ -177,7 +177,7 @@ public class Schematic {
                       .toList();
 
               if (components.size() == 2) {
-                return components.stream().map(PartNumber::num).reduce(1, (acc, el) -> acc * el);
+                return components.stream().map(PartNumber::num).reduce(1, IntegerUtils::product);
               }
 
               return 0;

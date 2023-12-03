@@ -24,13 +24,13 @@ public class CalibrationTest {
 
     inputs.forEach(
         (line, result) -> {
-          var value = Calibration.getCalibrationValue(Parsing.lineToList(line));
+          var value = Calibration.getCalibrationValue(ParsingUtils.lineToList(line));
           assertThat(value, is(result));
         });
 
     var total =
         inputs.entrySet().stream()
-            .map(entry -> Calibration.getCalibrationValue(Parsing.lineToList(entry.getKey())))
+            .map(entry -> Calibration.getCalibrationValue(ParsingUtils.lineToList(entry.getKey())))
             .reduce(0, Integer::sum);
 
     assertThat(total, is(142));
@@ -40,11 +40,11 @@ public class CalibrationTest {
   public void testInputPart1() {
     var inputStream = CalibrationTest.class.getClassLoader().getResourceAsStream("input.txt");
 
-    var inputs = Parsing.streamToList(inputStream);
+    var inputs = ParsingUtils.streamToList(inputStream);
 
     var total =
         inputs.stream()
-            .map(entry -> Calibration.getCalibrationValue(Parsing.lineToList(entry)))
+            .map(entry -> Calibration.getCalibrationValue(ParsingUtils.lineToList(entry)))
             .reduce(0, Integer::sum);
 
     log.info(total);
@@ -86,7 +86,7 @@ public class CalibrationTest {
   public void testInputPart2() {
     var inputStream = CalibrationTest.class.getClassLoader().getResourceAsStream("input.txt");
 
-    var inputs = Parsing.streamToList(inputStream);
+    var inputs = ParsingUtils.streamToList(inputStream);
 
     var total =
         inputs.stream().map(Calibration::getCalibrationValueWithWords).reduce(0, Integer::sum);
