@@ -23,16 +23,8 @@ public class Lottery {
     var cardValues = result.group(2).trim();
     var selfValues = result.group(3).trim();
 
-    var cardSet =
-        Arrays.stream(cardValues.split(" "))
-            .filter(s -> !s.isBlank())
-            .map(Integer::parseInt)
-            .collect(Collectors.toSet());
-    var selfList =
-        Arrays.stream(selfValues.split(" "))
-            .filter(s -> !s.isBlank())
-            .map(Integer::parseInt)
-            .toList();
+    var cardSet = ParsingUtils.readInts(cardValues).collect(Collectors.toSet());
+    var selfList = ParsingUtils.readInts(selfValues).toList();
 
     var winners = selfList.stream().filter(cardSet::contains).toList();
 
@@ -49,16 +41,8 @@ public class Lottery {
     var cardValues = result.group(2).trim();
     var selfValues = result.group(3).trim();
 
-    var cardSet =
-        Arrays.stream(cardValues.split(" "))
-            .filter(s -> !s.isBlank())
-            .map(Integer::parseInt)
-            .collect(Collectors.toSet());
-    var selfList =
-        Arrays.stream(selfValues.split(" "))
-            .filter(s -> !s.isBlank())
-            .map(Integer::parseInt)
-            .toList();
+    var cardSet = ParsingUtils.readInts(cardValues).collect(Collectors.toSet());
+    var selfList = ParsingUtils.readInts(selfValues).toList();
 
     var winners = selfList.stream().filter(cardSet::contains).toList();
 

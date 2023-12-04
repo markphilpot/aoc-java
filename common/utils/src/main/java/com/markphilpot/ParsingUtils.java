@@ -4,6 +4,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Stream;
 
 public class ParsingUtils {
   public static List<String> lineToList(String line) {
@@ -17,6 +18,16 @@ public class ParsingUtils {
         list.add(scanner.nextLine());
       }
       return list;
+    }
+  }
+
+  public static Stream<Integer> readInts(String whitespaceDelimitedInts) {
+    try (var s = new Scanner(whitespaceDelimitedInts)) {
+      var stream = Stream.<Integer>builder();
+      while (s.hasNextInt()) {
+        stream.add(s.nextInt());
+      }
+      return stream.build();
     }
   }
 }
