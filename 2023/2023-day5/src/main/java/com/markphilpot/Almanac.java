@@ -206,6 +206,23 @@ public class Almanac {
     return currentMin;
   }
 
+  public static long findLowestLocationFold(RangeRecord record) {
+    return record.seeds().stream()
+        .flatMap(SeedRange::stream)
+        .parallel()
+        .map(
+            s -> {
+              // Unfortunately Java streams don't have foldLeft
+              var x = s;
+              for (var key : To.values()) {
+                x = record.followToDest(key, x);
+              }
+              return x;
+            })
+        .min(Long::compareTo)
+        .orElseThrow();
+  }
+
   public static long findLowestLocationAlt(RangeRecord record) {
     // Let's try to max CPU for a bit
     var rangeStart = 0L;
