@@ -25,15 +25,28 @@ public class Almanac {
       return src <= input && src + length > input;
     }
 
+    public boolean isInDestRange(long input) {
+      return dest <= input && dest + length > input;
+    }
+
     public long followToDest(long input) {
       var offset = input - src;
       return dest + offset;
+    }
+
+    public long followToSrc(long input) {
+      var offset = input - dest;
+      return src + offset;
     }
   }
 
   public record SeedRange(long init, long length) {
     public Stream<Long> stream() {
       return LongStream.range(init, init + length).boxed();
+    }
+
+    public boolean includes(long input) {
+      return init <= input && init + length > input;
     }
   }
 
@@ -43,6 +56,14 @@ public class Almanac {
           .filter(t -> t.isInSrcRange(input))
           .findFirst()
           .map(t -> t.followToDest(input))
+          .orElse(input);
+    }
+
+    public long followToSrc(To key, long input) {
+      return transforms.get(key).stream()
+          .filter(t -> t.isInDestRange(input))
+          .findFirst()
+          .map(t -> t.followToSrc(input))
           .orElse(input);
     }
   }
@@ -183,5 +204,79 @@ public class Almanac {
     }
 
     return currentMin;
+  }
+
+  public static long findLowestLocationAlt(RangeRecord record) {
+    // Let's try to max CPU for a bit
+    var rangeStart = 0L;
+
+    while (true) {
+      log.info(rangeStart);
+      var found =
+          LongStream.range(rangeStart, rangeStart + 1_000_000)
+              .boxed()
+              .parallel()
+              .map(
+                  input -> {
+                    var x = input;
+                    for (var key : Arrays.stream(To.values()).toList().reversed()) {
+                      x = record.followToSrc(key, x);
+                    }
+                    // Check if x is in a seed range
+                    for (var sr : record.seeds()) {
+                      if (sr.includes(x)) {
+                        return input;
+                      }
+                    }
+                    return null;
+                  })
+              .filter(Objects::nonNull)
+              .sorted()
+              .findFirst();
+
+      if (found.isPresent()) {
+        return found.get();
+      }
+
+      rangeStart += 1_000_000;
+    }
+
+    //    return LongStream.range(0L, Long.MAX_VALUE).boxed().map(input -> {
+    //      if(input % 1_000_000 == 0) {
+    //        log.info("Checking %d".formatted(input));
+    //      }
+    //      var x = input;
+    //      for (var key : Arrays.stream(To.values()).toList().reversed()) {
+    //        x = record.followToSrc(key, x);
+    //      }
+    //      // Check if x is in a seed range
+    //      for(var sr : record.seeds()) {
+    //        if(sr.includes(x)) {
+    //          return input;
+    //        }
+    //      }
+    //      return null;
+    //    }).filter(Objects::nonNull).findFirst().orElseThrow();
+
+    //    while(!found) {
+    //      if(input % 1_000_000 == 0) {
+    //        log.info("Checking %d".formatted(input));
+    //      }
+    //      var x = input;
+    //      for (var key : Arrays.stream(To.values()).toList().reversed()) {
+    //        x = record.followToSrc(key, x);
+    //      }
+    //
+    //      // Check if x is in a seed range
+    //      for(var sr : record.seeds()) {
+    //        if(sr.includes(x)) {
+    //          return input;
+    //        }
+    //      }
+    //
+    //      input++;
+    //    }
+    //
+    //    return input;
   }
 }

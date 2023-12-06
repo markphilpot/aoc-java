@@ -68,4 +68,25 @@ public class AlmanacTest {
     //    var loc = Almanac.findLowestLocation(record);
     //    log.info(loc);
   }
+
+  @Test
+  public void testSamplePart2Alt() {
+    var inputStream = AlmanacTest.class.getClassLoader().getResourceAsStream("sample.txt");
+
+    var record = Almanac.parseRange(inputStream);
+    var loc = Almanac.findLowestLocationAlt(record);
+
+    assertThat(loc, is(46L));
+  }
+
+  @Test
+  public void testInputPart2Alt() {
+    var inputStream = AlmanacTest.class.getClassLoader().getResourceAsStream("input.txt");
+
+    var record = Almanac.parseRange(inputStream);
+
+    // This takes 1:55 to run on M1 MBP
+    //    var loc = Almanac.findLowestLocationAlt(record);
+    //    log.info(loc);
+  }
 }
