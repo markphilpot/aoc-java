@@ -176,7 +176,7 @@ public class Schematic {
                       .toList();
 
               if (components.size() == 2) {
-                return components.stream().map(PartNumber::num).reduce(1, IntegerUtils::product);
+                return components.stream().map(PartNumber::num).reduce(1, NumberUtils::product);
               }
 
               return 0;

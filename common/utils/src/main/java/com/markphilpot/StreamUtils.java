@@ -58,7 +58,7 @@ public class StreamUtils {
     };
   }
 
-  private static <L, R, O> Stream<O> zip(
+  public static <L, R, O> Stream<O> zip(
       Stream<L> lefts, Stream<R> rights, BiFunction<L, R, O> combiner) {
     return StreamSupport.stream(
             ZippingSpliterator.zipping(lefts.spliterator(), rights.spliterator(), combiner), false)
