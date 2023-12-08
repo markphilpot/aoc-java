@@ -4,6 +4,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsNot.not;
 
+import java.util.stream.Collectors;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.Test;
@@ -57,9 +58,16 @@ public class CamelCardsTest {
     var hands = CamelCardsJoker.parse(inputStream);
     var rankedHands = CamelCardsJoker.rank(hands);
 
-    //    rankedHands.forEach(h -> log.info("%s %s -> %s".formatted(h.cards()
-    //            .stream().map(CamelCardsJoker.Card::c).collect(Collectors.joining("")),
-    // h.getHandTypeNoJoker(), h.getHandType())));
+    rankedHands.forEach(
+        h ->
+            log.info(
+                "%s %s -> %s"
+                    .formatted(
+                        h.cards().stream()
+                            .map(CamelCardsJoker.Card::c)
+                            .collect(Collectors.joining("")),
+                        h.getHandTypeNoJoker(),
+                        h.getHandType())));
 
     var total = CamelCardsJoker.score(rankedHands);
 

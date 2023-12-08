@@ -63,83 +63,78 @@ public class CamelCardsJoker {
 
   public record Hand(List<Card> cards, long bid) implements Comparable<Hand> {
 
-    public HandType getHandType() {
+    public HandType getHandTypeNoJoker() {
       // Remove Jokers for calculation
-      var numJokers = (int) cards.stream().filter(c -> c.c().equals("J")).count();
       var remainingCards = cards.stream().filter(c -> !c.c().equals("J")).toList();
-      var cardCounts = new ArrayList<Integer>();
-      List<Card> tmp = new ArrayList<>(remainingCards);
-      while (!tmp.isEmpty()) {
-        var c = tmp.getFirst();
-        var count = tmp.stream().filter(c::equals).count();
-        cardCounts.add((int) count);
-        tmp = tmp.stream().filter(x -> !x.equals(c)).toList();
-      }
+      var cardCounts =
+          remainingCards.stream().collect(Collectors.groupingBy(x -> x, Collectors.counting()));
 
       //            log.info(remainingCards);
-      //            log.info(cardCounts);
+      //                  log.info(cardCounts);
       //            log.info(cards);
 
-      //            var filteredHand =
-      // remainingCards.stream().map(Card::c).collect(Collectors.joining());
+      return switch (cardCounts.size()) {
+        case 5 -> HandType.HIGH;
+        case 4 -> {
+          if (cardCounts.containsValue(2L)) {
+            yield HandType.ONE;
+          } else {
+            yield HandType.HIGH;
+          }
+        }
+        case 3 -> {
+          if (cardCounts.containsValue(3L)) {
+            yield HandType.THREE;
+          } else if (Collections.frequency(cardCounts.values(), 2L) == 2) {
+            yield HandType.TWO;
+          } else if (cardCounts.containsValue(2L)) {
+            yield HandType.ONE;
+          } else {
+            yield HandType.HIGH;
+          }
+        }
+        case 2 -> {
+          if (cardCounts.containsValue(4L)) {
+            yield HandType.FOUR;
+          } else if (cardCounts.containsValue(3L) && cardCounts.containsValue(2L)) {
+            yield HandType.FULL;
+          } else if (cardCounts.containsValue(3L)) {
+            yield HandType.THREE;
+          } else if (Collections.frequency(cardCounts.values(), 2L) == 2) {
+            yield HandType.TWO;
+          } else if (cardCounts.containsValue(2L)) {
+            yield HandType.ONE;
+          } else {
+            yield HandType.HIGH;
+          }
+        }
+        case 1 -> {
+          if (cardCounts.containsValue(5L)) {
+            yield HandType.FIVE;
+          } else if (cardCounts.containsValue(4L)) {
+            yield HandType.FOUR;
+          } else if (cardCounts.containsValue(3L)) {
+            yield HandType.THREE;
+          } else if (cardCounts.containsValue(2L)) {
+            yield HandType.ONE;
+          } else {
+            yield HandType.HIGH;
+          }
+        }
+        case 0 -> HandType.NONE;
+        default -> throw new IllegalStateException("Invalid card hand");
+      };
+    }
 
-      var handWithoutJoker =
-          switch (cardCounts.size()) {
-            case 5 -> HandType.HIGH;
-            case 4 -> {
-              if (cardCounts.contains(2)) {
-                yield HandType.ONE;
-              } else {
-                yield HandType.HIGH;
-              }
-            }
-            case 3 -> {
-              if (cardCounts.contains(3)) {
-                yield HandType.THREE;
-              } else if (Collections.frequency(cardCounts, 2) == 2) {
-                yield HandType.TWO;
-              } else if (cardCounts.contains(2)) {
-                yield HandType.ONE;
-              } else {
-                yield HandType.HIGH;
-              }
-            }
-            case 2 -> {
-              if (cardCounts.contains(4)) {
-                yield HandType.FOUR;
-              } else if (cardCounts.contains(3) && cardCounts.contains(2)) {
-                yield HandType.FULL;
-              } else if (cardCounts.contains(3)) {
-                yield HandType.THREE;
-              } else if (Collections.frequency(cardCounts, 2) == 2) {
-                yield HandType.TWO;
-              } else if (cardCounts.contains(2)) {
-                yield HandType.ONE;
-              } else {
-                yield HandType.HIGH;
-              }
-            }
-            case 1 -> {
-              if (cardCounts.contains(5)) {
-                yield HandType.FIVE;
-              } else if (cardCounts.contains(4)) {
-                yield HandType.FOUR;
-              } else if (cardCounts.contains(3)) {
-                yield HandType.THREE;
-              } else if (cardCounts.contains(2)) {
-                yield HandType.ONE;
-              } else {
-                yield HandType.HIGH;
-              }
-            }
-            case 0 -> HandType.NONE;
-            default -> throw new IllegalStateException("Invalid card hand");
-          };
+    public HandType getHandType() {
+      var numJokers = (int) cards.stream().filter(c -> c.c().equals("J")).count();
+      var handWithoutJoker = getHandTypeNoJoker();
 
-      //            log.info("%s
+      // log.info("%s
       // %s".formatted(remainingCards.stream().map(Card::c).collect(Collectors.joining()),
       // handWithoutJoker));
 
+      // lol Full House screws up with the return handWithoutJoker + numJokers shortcut
       return switch (handWithoutJoker) {
         case FIVE -> HandType.FIVE;
         case FOUR -> switch (numJokers) {
@@ -149,7 +144,7 @@ public class CamelCardsJoker {
         };
         case FULL -> switch (numJokers) {
           case 0 -> HandType.FULL;
-          default -> throw new IllegalStateException(cards.toString());
+          default -> throw new IllegalStateException();
         };
         case THREE -> switch (numJokers) {
           case 0 -> HandType.THREE;
