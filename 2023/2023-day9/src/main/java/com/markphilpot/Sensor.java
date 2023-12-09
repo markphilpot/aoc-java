@@ -27,13 +27,9 @@ public class Sensor {
     List<Long> next;
 
     do {
-      next = new ArrayList<>();
-
-      for (var i = 1; i < extrapolation.getLast().size(); i++) {
-        var x = extrapolation.getLast().get(i - 1);
-        var y = extrapolation.getLast().get(i);
-        next.add(y - x);
-      }
+      next = extrapolation.getLast()
+              .stream().collect(new WindowCollector<>(2))
+              .stream().map(w -> w.getLast() - w.getFirst()).toList();
 
       extrapolation.add(next);
     } while (!next.stream().allMatch(x -> x.equals(0L)));
