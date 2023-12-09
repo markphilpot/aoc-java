@@ -7,9 +7,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
-import java.util.stream.LongStream;
-import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
+import java.util.function.Function;
+import java.util.stream.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -67,5 +66,13 @@ public class StreamUtils {
 
   public static <T> Stream<Indexed<T>> zipWithIndex(Stream<T> source) {
     return zip(indices().boxed(), source, Indexed::buildIndexValue).onClose(source::close);
+  }
+
+  // https://stackoverflow.com/a/67532404
+  public static <A, B> Collector<A, ?, B> foldLeft(
+      final B init, final BiFunction<? super B, ? super A, ? extends B> f) {
+    return Collectors.collectingAndThen(
+        Collectors.reducing(Function.<B>identity(), a -> b -> f.apply(b, a), Function::andThen),
+        endo -> endo.apply(init));
   }
 }

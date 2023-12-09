@@ -30,4 +30,14 @@ public class ParsingUtils {
       return stream.build();
     }
   }
+
+  public static Stream<Long> readLongs(String whitespaceDelimitedInts) {
+    try (var s = new Scanner(whitespaceDelimitedInts)) {
+      var stream = Stream.<Long>builder();
+      while (s.hasNextLong()) {
+        stream.add(s.nextLong());
+      }
+      return stream.build();
+    }
+  }
 }
