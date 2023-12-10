@@ -27,9 +27,10 @@ public class Sensor {
     List<Long> next;
 
     do {
-      next = extrapolation.getLast()
-              .stream().collect(new WindowCollector<>(2))
-              .stream().map(w -> w.getLast() - w.getFirst()).toList();
+      next =
+          extrapolation.getLast().stream().collect(new WindowCollector<>(2)).stream()
+              .map(w -> w.getLast() - w.getFirst())
+              .toList();
 
       extrapolation.add(next);
     } while (!next.stream().allMatch(x -> x.equals(0L)));
