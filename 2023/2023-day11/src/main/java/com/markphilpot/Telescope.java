@@ -15,7 +15,6 @@ public class Telescope {
   public record Galaxy(int id, long x, long y) {}
 
   public record Pair(Galaxy a, Galaxy b, long numSteps) {}
-  ;
 
   public record Image(List<Galaxy> galaxies, long numRows, long numCols) {}
 
@@ -36,8 +35,8 @@ public class Telescope {
                 .boxed()
                 .toList();
 
-        for (var i = 0; i < galaxyIndexes.size(); i++) {
-          galaxies.add(new Galaxy(galaxyId++, galaxyIndexes.get(i), row));
+        for (var index : galaxyIndexes) {
+          galaxies.add(new Galaxy(galaxyId++, index, row));
         }
 
         row++;
@@ -59,8 +58,7 @@ public class Telescope {
       var gThis = new ArrayList<Galaxy>();
       var gAfter = new ArrayList<Galaxy>();
 
-      for (var g = 0; g < galaxies.size(); g++) {
-        var galaxy = galaxies.get(g);
+      for (var galaxy : galaxies) {
         if (galaxy.y < y) {
           gBefore.add(galaxy);
         } else if (galaxy.y == y) {
@@ -95,8 +93,7 @@ public class Telescope {
       var gThis = new ArrayList<Galaxy>();
       var gAfter = new ArrayList<Galaxy>();
 
-      for (var g = 0; g < galaxies.size(); g++) {
-        var galaxy = galaxies.get(g);
+      for (var galaxy : galaxies) {
         if (galaxy.x < x) {
           gBefore.add(galaxy);
         } else if (galaxy.x == x) {
