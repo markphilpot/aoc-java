@@ -52,6 +52,9 @@ public class Telescope {
     var finalNumRows = init.numRows;
     var finalNumCols = init.numCols;
 
+    // Scale factor of 1 is "identity" (i.e. don't add rows)
+    var increment = scaleFactor - 1;
+
     // row expansion
     for (var y = init.numRows - 1; y >= 0; y--) {
       var gBefore = new ArrayList<Galaxy>();
@@ -75,16 +78,14 @@ public class Telescope {
       if (gThis.isEmpty()) {
         log.info("Expanding row %d".formatted(y));
         expand = true;
-        finalNumRows += scaleFactor;
+        finalNumRows += increment;
       } else {
         expand = false;
         galaxies.addAll(gThis);
       }
 
       galaxies.addAll(
-          gAfter.stream()
-              .map(g -> new Galaxy(g.id, g.x, g.y + (expand ? scaleFactor : 0)))
-              .toList());
+          gAfter.stream().map(g -> new Galaxy(g.id, g.x, g.y + (expand ? increment : 0))).toList());
     }
 
     // col expansion
@@ -110,16 +111,14 @@ public class Telescope {
       if (gThis.isEmpty()) {
         log.info("Expanding col %d".formatted(x));
         expand = true;
-        finalNumCols += scaleFactor;
+        finalNumCols += increment;
       } else {
         expand = false;
         galaxies.addAll(gThis);
       }
 
       galaxies.addAll(
-          gAfter.stream()
-              .map(g -> new Galaxy(g.id, g.x + (expand ? scaleFactor : 0), g.y))
-              .toList());
+          gAfter.stream().map(g -> new Galaxy(g.id, g.x + (expand ? increment : 0), g.y)).toList());
     }
 
     galaxies.sort(Comparator.comparingInt(a -> a.id));

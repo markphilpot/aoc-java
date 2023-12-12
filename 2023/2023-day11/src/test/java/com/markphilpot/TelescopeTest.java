@@ -18,7 +18,7 @@ public class TelescopeTest {
 
     log.info(image);
 
-    image = Telescope.handleExpansion(image, 1);
+    image = Telescope.handleExpansion(image, 2);
 
     log.info(image);
 
@@ -36,7 +36,7 @@ public class TelescopeTest {
     var inputStream = TelescopeTest.class.getClassLoader().getResourceAsStream("input.txt");
 
     var image = Telescope.parse(inputStream);
-    image = Telescope.handleExpansion(image, 1);
+    image = Telescope.handleExpansion(image, 2);
     var pairs = Telescope.findDistances(image);
     var total = pairs.stream().map(Telescope.Pair::numSteps).reduce(0L, Long::sum);
 
@@ -49,9 +49,7 @@ public class TelescopeTest {
 
     var image = Telescope.parse(inputStream);
 
-    // This scale factor *should* be 10, but 9 gets the correct answer.
-    // I must be misunderstanding the question somehow...
-    image = Telescope.handleExpansion(image, 9);
+    image = Telescope.handleExpansion(image, 10);
 
     log.info(image);
 
@@ -69,7 +67,7 @@ public class TelescopeTest {
     var inputStream = TelescopeTest.class.getClassLoader().getResourceAsStream("sample.txt");
 
     var image = Telescope.parse(inputStream);
-    image = Telescope.handleExpansion(image, 99);
+    image = Telescope.handleExpansion(image, 100);
     var pairs = Telescope.findDistances(image);
     var total = pairs.stream().map(Telescope.Pair::numSteps).reduce(0L, Long::sum);
 
@@ -81,7 +79,7 @@ public class TelescopeTest {
     var inputStream = TelescopeTest.class.getClassLoader().getResourceAsStream("input.txt");
 
     var image = Telescope.parse(inputStream);
-    image = Telescope.handleExpansion(image, 999_999);
+    image = Telescope.handleExpansion(image, 1_000_000);
     var pairs = Telescope.findDistances(image);
     var total = pairs.stream().map(Telescope.Pair::numSteps).reduce(0L, Long::sum);
 
