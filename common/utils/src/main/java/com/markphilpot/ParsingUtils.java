@@ -4,6 +4,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public class ParsingUtils {
@@ -39,5 +40,10 @@ public class ParsingUtils {
       }
       return stream.build();
     }
+  }
+
+  public static Stream<Integer> findIndexesOf(String line, String needle) {
+    return IntStream.iterate(line.indexOf(needle), i -> i >= 0, i -> line.indexOf(needle, i + 1))
+                    .boxed();
   }
 }
