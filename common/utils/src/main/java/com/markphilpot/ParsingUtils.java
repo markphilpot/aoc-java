@@ -44,6 +44,6 @@ public class ParsingUtils {
 
   public static Stream<Integer> findIndexesOf(String line, String needle) {
     return IntStream.iterate(line.indexOf(needle), i -> i >= 0, i -> line.indexOf(needle, i + 1))
-                    .boxed();
+        .boxed();
   }
 }
