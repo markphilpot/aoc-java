@@ -26,8 +26,6 @@ public class TestTemplate {
     var numRanges = 0;
 
     log.info(numRanges);
-
-    assertThat(numRanges, is(0));
   }
 
   @Test
@@ -46,7 +44,5 @@ public class TestTemplate {
     var numRanges = 0;
 
     log.info(numRanges);
-
-    assertThat(numRanges, is(0));
   }
 }
