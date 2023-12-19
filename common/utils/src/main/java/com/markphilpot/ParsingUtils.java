@@ -9,7 +9,11 @@ import java.util.stream.Stream;
 
 public class ParsingUtils {
   public static List<String> lineToList(String line) {
-    return line.chars().mapToObj(x -> (char) x).map(Object::toString).toList();
+    return lineToStream(line).toList();
+  }
+
+  public static Stream<String> lineToStream(String line) {
+    return line.chars().mapToObj(x -> (char) x).map(Object::toString);
   }
 
   public static List<String> streamToList(InputStream inputStream) {
