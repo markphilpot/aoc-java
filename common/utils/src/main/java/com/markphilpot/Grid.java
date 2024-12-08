@@ -51,6 +51,10 @@ public class Grid<T> {
   }
 
   public T get(Point c) {
+    if(c.y < 0 || c.y >= grid.size() || c.x < 0 || c.x >= grid.getFirst().size()) {
+      return null;
+    }
+
     return grid.get(c.y).get(c.x);
   }
 

@@ -23,9 +23,9 @@ public class TestTemplate {
   public void testInputPart1() {
     var inputStream = TestTemplate.class.getClassLoader().getResourceAsStream("input.txt");
 
-    var numRanges = 0;
+    var num = 0;
 
-    log.info(numRanges);
+    log.info(num);
   }
 
   @Test
@@ -41,8 +41,8 @@ public class TestTemplate {
   public void testInputPart2() {
     var inputStream = TestTemplate.class.getClassLoader().getResourceAsStream("input.txt");
 
-    var numRanges = 0;
+    var num = 0;
 
-    log.info(numRanges);
+    log.info(num);
   }
 }

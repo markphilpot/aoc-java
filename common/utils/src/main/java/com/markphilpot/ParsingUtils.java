@@ -1,6 +1,8 @@
 package com.markphilpot;
 
+import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -8,6 +10,16 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public class ParsingUtils {
+
+  public static List<List<String>> streamToGrid(InputStream input) {
+    var lines = streamToList(input);
+    return lines.stream().map(line -> lineToStream(line).toList()).toList();
+  }
+
+  public static String streamToString(InputStream input) throws IOException {
+    return new String(input.readAllBytes(), StandardCharsets.UTF_8);
+  }
+
   public static List<String> lineToList(String line) {
     return lineToStream(line).toList();
   }
