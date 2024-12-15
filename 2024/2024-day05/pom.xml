@@ -6,23 +6,18 @@
 
     <parent>
         <groupId>com.markphilpot</groupId>
-        <artifactId>aoc-java</artifactId>
+        <artifactId>2024</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
 
     <groupId>com.markphilpot</groupId>
-    <artifactId>2024</artifactId>
+    <artifactId>2024-day05</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <packaging>pom</packaging>
 
-    <modules>
-        <module>2024-day01</module>
-        <module>2024-day02</module>
-        <module>2024-day03</module>
-        <module>2024-day04</module>
-        <module>2024-day05</module>
-        <module>2024-day06</module>
-        <module>2024-day07</module>
-    </modules>
-
+    <dependencies>
+        <dependency>
+            <groupId>com.markphilpot</groupId>
+            <artifactId>utils</artifactId>
+        </dependency>
+    </dependencies>
 </project>
