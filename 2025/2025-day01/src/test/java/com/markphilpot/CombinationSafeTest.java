@@ -33,11 +33,7 @@ public class CombinationSafeTest {
   public void testSamplePart1() {
     var inputStream = CombinationSafeTest.class.getClassLoader().getResourceAsStream("sample.txt");
 
-    var entries = ParsingUtils.streamToList(inputStream).stream().map(line -> {
-      var dir = line.charAt(0) == 'L' ? CombinationSafe.Direction.L : CombinationSafe.Direction.R;
-      var dist = Integer.parseInt(line.substring(1));
-      return new CombinationSafe.Entry(dir, dist);
-    }).toList();
+    var entries = CombinationSafe.parseAlt(inputStream);
 
     var num = 0;
 
@@ -57,11 +53,7 @@ public class CombinationSafeTest {
   public void testInputPart1() {
     var inputStream = CombinationSafeTest.class.getClassLoader().getResourceAsStream("input.txt");
 
-    var entries = ParsingUtils.streamToList(inputStream).stream().map(line -> {
-      var dir = line.charAt(0) == 'L' ? CombinationSafe.Direction.L : CombinationSafe.Direction.R;
-      var dist = Integer.parseInt(line.substring(1));
-      return new CombinationSafe.Entry(dir, dist);
-    }).toList();
+    var entries = CombinationSafe.parse(inputStream);
 
     var num = 0;
 
@@ -92,11 +84,7 @@ public class CombinationSafeTest {
   public void testSamplePart2() {
     var inputStream = CombinationSafeTest.class.getClassLoader().getResourceAsStream("sample.txt");
 
-    var entries = ParsingUtils.streamToList(inputStream).stream().map(line -> {
-      var dir = line.charAt(0) == 'L' ? CombinationSafe.Direction.L : CombinationSafe.Direction.R;
-      var dist = Integer.parseInt(line.substring(1));
-      return new CombinationSafe.Entry(dir, dist);
-    }).toList();
+    var entries = CombinationSafe.parse(inputStream);
 
     var num = 0;
 
@@ -113,13 +101,7 @@ public class CombinationSafeTest {
   public void testInputPart2() {
     var inputStream = CombinationSafeTest.class.getClassLoader().getResourceAsStream("input.txt");
 
-    var entries = ParsingUtils.streamToList(inputStream).stream().map(line -> {
-      var dir = line.charAt(0) == 'L' ? CombinationSafe.Direction.L : CombinationSafe.Direction.R;
-      var dist = Integer.parseInt(line.substring(1));
-      return new CombinationSafe.Entry(dir, dist);
-    }).toList();
-
-    var num = 0;
+    var entries = CombinationSafe.parse(inputStream);
 
     var safe = new CountingCombinationSafe();
 
