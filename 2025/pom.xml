@@ -18,5 +18,6 @@
     <modules>
         <module>2025-day01</module>
         <module>2025-day02</module>
+        <module>2025-day03</module>
     </modules>
 </project>
