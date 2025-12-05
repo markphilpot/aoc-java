@@ -58,6 +58,10 @@ public class Grid<T> {
     return grid.get(c.y).get(c.x);
   }
 
+  public void set(Point c, T v) {
+    grid.get(c.y).set(c.x, v);
+  }
+
   public List<Optional<Point>> getAdjacent(Point c) {
     var targets =
         List.of(
@@ -132,5 +136,20 @@ public class Grid<T> {
           case W -> new RP(new Point(p.x - 1, p.y), E);
         };
     return new RPV<T>(nextPoint, get(nextPoint.point));
+  }
+
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("\n");
+    for (int y = 0; y < grid.size(); y++) {
+      for (int x = 0; x < grid.get(y).size(); x++) {
+        sb.append(grid.get(y).get(x));
+      }
+      if (y < grid.size() - 1) {
+        sb.append("\n");
+      }
+    }
+    return sb.toString();
   }
 }
