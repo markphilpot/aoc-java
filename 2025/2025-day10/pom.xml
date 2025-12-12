@@ -6,25 +6,18 @@
 
     <parent>
         <groupId>com.markphilpot</groupId>
-        <artifactId>aoc-java</artifactId>
+        <artifactId>2025</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
 
     <groupId>com.markphilpot</groupId>
-    <artifactId>2025</artifactId>
+    <artifactId>2025-day10</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <packaging>pom</packaging>
 
-    <modules>
-        <module>2025-day01</module>
-        <module>2025-day02</module>
-        <module>2025-day03</module>
-        <module>2025-day04</module>
-        <module>2025-day05</module>
-        <module>2025-day06</module>
-        <module>2025-day07</module>
-        <module>2025-day08</module>
-        <module>2025-day09</module>
-        <module>2025-day10</module>
-    </modules>
+    <dependencies>
+        <dependency>
+            <groupId>com.markphilpot</groupId>
+            <artifactId>utils</artifactId>
+        </dependency>
+    </dependencies>
 </project>
