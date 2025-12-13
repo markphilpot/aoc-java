@@ -72,4 +72,19 @@ public class ParsingUtils {
     return IntStream.iterate(line.indexOf(needle), i -> i >= 0, i -> line.indexOf(needle, i + 1))
         .boxed();
   }
+
+  public static List<List<String>> splitByEmptyLines(List<String> lines) {
+    var current = new ArrayList<String>();
+    var result = new ArrayList<List<String>>();
+    for (var line : lines) {
+      if (line.isBlank()) {
+        result.add(current);
+        current = new ArrayList<>();
+      } else {
+        current.add(line);
+      }
+    }
+    result.add(current);
+    return result;
+  }
 }
