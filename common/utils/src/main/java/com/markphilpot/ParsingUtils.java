@@ -28,6 +28,16 @@ public class ParsingUtils {
     return line.chars().mapToObj(x -> (char) x).map(Object::toString);
   }
 
+  public static Stream<String> lineToStreamByWhitespace(String line) {
+    try(var scanner = new Scanner(line)) {
+      var list = new ArrayList<String>();
+      while (scanner.hasNext()) {
+        list.add(scanner.next());
+      }
+      return list.stream();
+    }
+  }
+
   public static List<String> streamToList(InputStream inputStream) {
     try (var scanner = new Scanner(inputStream)) {
       var list = new ArrayList<String>();

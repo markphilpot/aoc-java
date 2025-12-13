@@ -48,7 +48,7 @@ public class MachineLightsTest {
     var inputStream = MachineLightsTest.class.getClassLoader().getResourceAsStream("input.txt");
 
     // Need a different algo...
-    
+
 //    var machines = MachineLights.parse(inputStream);
 //    var num = machines.stream().parallel().map(MachineLights::runJoltage).reduce(0, Integer::sum);
 
