@@ -19,5 +19,11 @@
             <groupId>com.markphilpot</groupId>
             <artifactId>utils</artifactId>
         </dependency>
+        <dependency>
+            <groupId>io.github.p-org.solvers</groupId>
+            <artifactId>z3</artifactId>
+            <version>4.8.14-v5</version>
+        </dependency>
     </dependencies>
+
 </project>

@@ -49,6 +49,8 @@ public class MachineLightsTest {
 
     // Need a different algo...
 
+    // Solved with Z3 with python bindings... I couldn't get the java bindings to work
+
 //    var machines = MachineLights.parse(inputStream);
 //    var num = machines.stream().parallel().map(MachineLights::runJoltage).reduce(0, Integer::sum);
 
